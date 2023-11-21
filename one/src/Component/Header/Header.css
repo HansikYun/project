@@ -1,0 +1,24 @@
+#imagemv{
+    background-color: white;
+    margin: 0px 0px 10px 0px;
+    padding : 100px;
+}
+#middleset {
+    background-color: white;
+    width: 1000px;
+    height : auto;
+    margin: 0px auto;
+    padding: 0px 50px 50px;
+}
+@font-face {
+    font-family: 'Godo';
+    font-style: normal;
+    font-weight: 400;
+    src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff') format('woff');
+  }
+  @font-face {
+   font-family: 'GangwonEduSaeeum_OTFMediumA';
+   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEduSaeeum_OTFMediumA.woff') format('woff');
+   font-weight: normal;
+   font-style: normal;
+  }

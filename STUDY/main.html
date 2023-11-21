@@ -108,6 +108,10 @@
         <input type="text" id="name" name="name">
       </div>
       <div class="input-container">
+        <label for="department" style="width: 80px;">학과명</label>
+        <input type="text" id="department" name="department">
+      </div>
+      <div class="input-container">
         <label for="email" style="width: 80px;">이메일</label>
         <input type="email" id="email" name="email">
       </div>
@@ -171,7 +175,8 @@
       const averageGPA = averageGPAInput.value;
       const extracurricular = extracurricularInput.value;
       const majorActivity = majorActivityInput.value;
-  
+      const departmentInput = document.getElementById('department');
+      
       // 이름을 리스트에 추가
       const listItem = document.createElement('li');
       listItem.textContent = name;
@@ -230,6 +235,7 @@
     if (!selectedListItem) return; // 선택된 정보가 없으면 종료
     // 수정된 정보를 가져와서 선택된 리스트 아이템에 업데이트
     selectedListItem.textContent = nameInput.value;
+
     const editedInfo = {
       name: nameInput.value,
       email: emailInput.value,
@@ -238,12 +244,13 @@
       averageGPA: averageGPAInput.value,
       extracurricular: extracurricularInput.value,
       majorActivity: majorActivityInput.value
+      department: departmentInput.value
     };
     selectedListItem.setAttribute('data-info', JSON.stringify(editedInfo));
     selectedListItem = null; // 선택된 리스트 초기화
     // 나머지 초기화 코드는 이전과 동일
   }
-  
+
   function deleteInfo() {
     if (!selectedListItem) return; // 선택된 정보가 없으면 종료
     selectedListItem.remove(); // 선택된 리스트 아이템 삭제

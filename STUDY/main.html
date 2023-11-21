@@ -1,146 +1,267 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>개인정보 저장</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    #container {
-      display: flex;
-      width: 80%;
-    }
-    #inputSection, #listSection {
-      border: 1px solid #ccc;
-      padding: 50px;
-      max-height: 5000px;
-      overflow-y: auto;
-    }
-    #inputSection {
-      flex: 8;
-    }
-    #listSection {
-      flex: 2;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    label {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    ul {
-      list-style-type: none;
-      padding: 0;
+  <!DOCTYPE html>
+  <html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <title>개인정보 저장</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      #container {
+        display: flex;
+        width: 80%;
+      }
+      #inputSection, #listSection {
+        border: 1px solid #ccc;
+        padding: 50px;
+        max-height: 5000px;
+        overflow-y: auto;
+      }
+      #inputSection {
+        flex: 8;
+      }
+      #listSection {
+        flex: 2;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+        cursor: pointer;
+      }
+      li {
+        margin-bottom: 5px;
+      }
+      .input-container {  
+        display: flex;
+        align-items: center;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 8px;
+      }
+      #upload {
+        margin-bottom: 15px;
+      }
+
+    .save-button,
+    .edit-button,
+    .delete-button {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin-right: 5px;
       cursor: pointer;
+      border-radius: 4px;
     }
-    li {
-      margin-bottom: 5px;
+    /* 마우스 호버 시 색상 변화 */
+    .save-button:hover,
+    .edit-button:hover,
+    .delete-button:hover {
+      background-color: #d32f2f;
+      color: white;
     }
-    .input-container {
-      display: flex;
-      align-items: center;
+    #imagePreview img {
+      max-width: 200px;
+      height: auto;
     }
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"] {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 8px;
-    }
-    #upload {
-      margin-bottom: 15px;
-    }
-    
-  </style>
-</head>
-<body>
+    input[type="text"][name="extracurricular"],
+    input[type="text"][name="majorActivity"] {
+        height: 150px;
+      }
+    </style>
+  </head>
+  <body>
 
-<div id="container">
-  <div id="listSection">
-    <h2>저장된 목록</h2>
-    <ul id="infoList"></ul>
-  </div>
+  <div id="container">
+    <div id="listSection">
+      <h2>저장된 목록</h2>
+      <ul id="infoList"></ul>
+    </div>
 
-  <div id="inputSection">
-    <h2>개인정보 입력</h2>
-    <form id="infoForm">
-      <input type="file" id="upload" accept="image/*">
+    <div id="inputSection">
+      <h2>개인정보 입력</h2>
+      <!-- 입력 요소들 -->
       <div class="input-container">
-        <label for="name" style="width: 80px;">이름:</label>
+        <label for="name" style="width: 80px;">이름</label>
         <input type="text" id="name" name="name">
       </div>
-      
       <div class="input-container">
-        <label for="email" style="width: 80px;">이메일:</label>
+        <label for="email" style="width: 80px;">이메일</label>
         <input type="email" id="email" name="email">
       </div>
-      
       <div class="input-container">
-        <label for="phone" style="width: 80px;">전화번호:</label>
+        <label for="phone" style="width: 80px;">전화번호</label>
         <input type="tel" id="phone" name="phone">
       </div>
-      
       <div class="input-container">
-        <label for="address" style="width: 80px;">주소:</label>
+        <label for="address" style="width: 80px;">주소</label>
         <input type="text" id="address" name="address">
       </div>
-      
-      <button type="submit">저장하기</button>
-    </form>
+      <div class="input-container">
+        <label for="averageGPA" style="width: 80px;">평균 학점</label>
+        <input type="text" id="averageGPA" name="averageGPA">
+      </div>
+      <div class="input-container">
+        <label for="extracurricular" style="width: 80px;">대외 활동</label>
+        <input type="text" id="extracurricular" name="extracurricular">
+      </div>
+      <div class="input-container">
+        <label for="majorActivity" style="width: 80px;">전공 활동</label>
+        <input type="text" id="majorActivity" name="majorActivity">
+      </div>
+
+      <form id="infoForm">
+        <!-- 업로드 버튼 -->
+        <label style="display: inline-block; width: 100px;">보유 자격증</label>
+        <input type="file" id="upload" accept="image/*" style="display: inline-block;">
+        <div id="imagePreview"></div>
+      </form> 
+      <!-- 저장, 편집, 삭제 버튼 -->
+      <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: 10px;">
+        <button type="submit" class="save-button">저장</button>
+        <button class="edit-button">편집</button>
+        <button class="delete-button">삭제</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<script>
-  const infoForm = document.getElementById('infoForm');
-  const infoList = document.getElementById('infoList');
-  const nameInput = document.getElementById('name');
-  const emailInput = document.getElementById('email');
-  const phoneInput = document.getElementById('phone');
-  const addressInput = document.getElementById('address');
-  const uploadInput = document.getElementById('upload');
 
-  infoForm.addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const name = nameInput.value;
-    const email = emailInput.value;
-    const phone = phoneInput.value;
-    const address = addressInput.value;
-
-    // 이름을 리스트에 추가
-    const listItem = document.createElement('li');
-    listItem.textContent = name;
-    listItem.addEventListener('click', function() {
-      nameInput.value = name;
-      emailInput.value = email;
-      phoneInput.value = phone;
-      addressInput.value = address;
+  <script>
+    const infoForm = document.getElementById('infoForm');
+    const infoList = document.getElementById('infoList');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const addressInput = document.getElementById('address');
+    const averageGPAInput = document.getElementById('averageGPA');
+    const extracurricularInput = document.getElementById('extracurricular');
+    const majorActivityInput = document.getElementById('majorActivity');
+    const uploadInput = document.getElementById('upload');
+  
+    infoForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+  
+      const name = nameInput.value;
+      const email = emailInput.value;
+      const phone = phoneInput.value;
+      const address = addressInput.value;
+      const averageGPA = averageGPAInput.value;
+      const extracurricular = extracurricularInput.value;
+      const majorActivity = majorActivityInput.value;
+  
+      // 이름을 리스트에 추가
+      const listItem = document.createElement('li');
+      listItem.textContent = name;
+      listItem.addEventListener('click', function() {
+        nameInput.value = name;
+        emailInput.value = email;
+        phoneInput.value = phone;
+        addressInput.value = address;
+        averageGPAInput.value = averageGPA;
+        extracurricularInput.value = extracurricular;
+        majorActivityInput.value = majorActivity;
+      });
+      infoList.appendChild(listItem);
+  
+      // 입력 필드 초기화
+      nameInput.value = '';
+      emailInput.value = '';
+      phoneInput.value = '';
+      addressInput.value = '';
+      averageGPAInput.value = '';
+      extracurricularInput.value = '';
+      majorActivityInput.value = '';
+      uploadInput.value = ''; // 업로드 파일 초기화
     });
-    infoList.appendChild(listItem);
+  
+    uploadInput.addEventListener('change', function() {
+      const file = uploadInput.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const imageUrl = event.target.result;
+          const imgElement = document.createElement('img');
+          imgElement.src = imageUrl;
+          imagePreview.innerHTML = ''; // 이미지 미리보기를 초기화하고 새로운 이미지로 대체
+          imagePreview.appendChild(imgElement);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
 
-    // 입력 필드 초기화
-    nameInput.value = '';
-    emailInput.value = '';
-    phoneInput.value = '';
-    addressInput.value = '';
-    uploadInput.value = ''; // 업로드 파일 초기화
+      // 리스트 아이템 클릭 시 해당 정보를 입력 폼에 불러오는 함수
+     function editInfo(item) {
+        selectedListItem = item; // 선택된 리스트 아이템 저장
+        const selectedInfo = JSON.parse(selectedListItem.getAttribute('data-info'));
+        nameInput.value = selectedInfo.name;
+        emailInput.value = selectedInfo.email;
+        phoneInput.value = selectedInfo.phone;
+        addressInput.value = selectedInfo.address;
+        averageGPAInput.value = selectedInfo.averageGPA;
+        extracurricularInput.value = selectedInfo.extracurricular;
+        majorActivityInput.value = selectedInfo.majorActivity;
+  } 
+
+    // 편집 버튼 클릭 시 선택된 정보 수정하고 저장하는 함수
+    function saveEditedInfo() {
+    if (!selectedListItem) return; // 선택된 정보가 없으면 종료
+    // 수정된 정보를 가져와서 선택된 리스트 아이템에 업데이트
+    selectedListItem.textContent = nameInput.value;
+    const editedInfo = {
+      name: nameInput.value,
+      email: emailInput.value,
+      phone: phoneInput.value,
+      address: addressInput.value,
+      averageGPA: averageGPAInput.value,
+      extracurricular: extracurricularInput.value,
+      majorActivity: majorActivityInput.value
+    };
+    selectedListItem.setAttribute('data-info', JSON.stringify(editedInfo));
+    selectedListItem = null; // 선택된 리스트 초기화
+    // 나머지 초기화 코드는 이전과 동일
+  }
+  
+  function deleteInfo() {
+    if (!selectedListItem) return; // 선택된 정보가 없으면 종료
+    selectedListItem.remove(); // 선택된 리스트 아이템 삭제
+    selectedListItem = null; // 선택된 리스트 초기화
+    // 나머지 초기화 코드는 이전과 동일
+  }
+
+  // 예시: 리스트 아이템 클릭 시 편집 함수 호출
+  const listItems = document.querySelectorAll('#infoList li');
+  listItems.forEach(item => {
+    item.addEventListener('click', () => editInfo(item));
   });
 
-  uploadInput.addEventListener('change', function() {
-    const file = uploadInput.files[0];
-    // 선택된 파일을 업로드하거나 사용할 수 있음
-    console.log('선택된 파일:', file);
-  });
-</script>
+  // 예시: 삭제 버튼 클릭 시 선택된 정보 삭제하는 함수 호출
+  const deleteButton = document.querySelector('.delete-button');
+  deleteButton.addEventListener('click', () => deleteInfo());
+  </script>
 
-</body>
-</html>
+  
+  </body>
+  </html>

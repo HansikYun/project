@@ -6,19 +6,21 @@ hr.hr-1{
     text-align: center;
 
 }
+
 body {
     background-color: white;
 }
-.box1{
-    border-radius : 25px;
-    background-color:lightgray;
-    width: 70%;
-    height: auto; /*임시 조정필요*/
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    padding : 10px;
+
+.box1 {
+  border-radius: 25px;
+  background-color: lightgray;
+  width: 70%;
+  height: auto; /*임시 조정필요*/
+  margin: 10% auto; /* 이미지와 큰 간격을 둡니다 */
+  text-align: center;
+  padding: 10px;
 }
+
 @font-face {
     font-family: 'Godo';
     font-style: normal;
@@ -34,7 +36,10 @@ body {
 
   .myText {
     font-size: 4vw;
+    text-align: center;
   }
   .yourText {
     font-size: 4vw;
+    text-align: left;
+    padding-left : 10%;
   }

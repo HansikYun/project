@@ -21,7 +21,7 @@
    padding: 0 10px;  /* 테스트를 위해 여백을 조정했습니다. 필요에 따라 조정하세요 */
   }
   
-@font-face {
+  @font-face {
     font-family: 'Godo';
     font-style: normal;
     font-weight: 400;

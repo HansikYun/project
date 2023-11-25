@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>개인정보 저장</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: rgb(208, 252, 228);
+    } 
+    #container {
+      display: flex;
+      width: 80%;
+      background-color: rgb(246, 254, 247);
+    }
+    #inputSection, #listSection {
+      border: 1px solid #ccc;
+      padding: 50px;
+      max-height: 5000px;
+      overflow-y: auto;
+    }
+    #inputSection {
+      flex: 8;
+    }
+    #listSection {
+      flex: 2;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+      cursor: pointer;
+    }
+    li {
+      margin-bottom: 5px;
+    }
+    .input-container {  
+      display: flex;
+      align-items: center;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 8px;
+    }
+    #upload {
+      margin-bottom: 15px;
+    }
+
+    .save-button,
+    .edit-button,
+    .delete-button,
+    .add-button {
+      background-color: #c4fcc3;
+      color: black;
+      border: none;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin-right: 5px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    /* 마우스 호버 시 색상 변화 */
+    .save-button:hover,
+    .edit-button:hover,
+    .delete-button:hover,
+    .add-button:hover {
+      background-color: #a7bfa2;
+      color: black;
+    }
+    #imagePreview img {
+      max-width: 200px;
+      height: auto;
+    }
+    input[type="text"][name="extracurricular"],
+    input[type="text"][name="majorActivity"] {
+      height: 150px;
+    }
+    .selected {
+      background-color: #f0f0f0;
+    }
+    input[disabled] {
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+
+<div id="container">
+  <div id="listSection">
+    <h2>학생 목록</h2>
+    <ul id="infoList"></ul>
+  </div>
+
+  <div id="inputSection">
+    <h2>진로 정보 입력</h2>
+    <!-- 입력 요소들 -->
+    <div class="input-container">
+      <label for="name" style="width: 80px;">이름</label>
+      <input type="text" id="name" name="name">
+    </div>
+    <div class="input-container">
+      <label for="department" style="width: 80px;">학과명</label>
+      <input type="text" id="department" name="department">
+    </div>
+    <div class="input-container">
+      <label for="email" style="width: 80px;">이메일</label>
+      <input type="email" id="email" name="email">
+    </div>
+    <div class="input-container">
+      <label for="phone" style="width: 80px;">전화번호</label>
+      <input type="tel" id="phone" name="phone">
+    </div>
+    <div class="input-container">
+      <label for="address" style="width: 80px;">주소</label>
+      <input type="text" id="address" name="address">
+    </div>
+    <div class="input-container">
+      <label for="averageGPA" style="width: 80px;">평균 학점</label>
+      <input type="text" id="averageGPA" name="averageGPA">
+    </div>
+    <div class="input-container">
+      <label for="extracurricular" style="width: 80px;">대외 활동</label>
+      <input type="text" id="extracurricular" name="extracurricular">
+    </div>
+    <div class="input-container">
+      <label for="majorActivity" style="width: 80px;">전공 활동</label>
+      <input type="text" id="majorActivity" name="majorActivity">
+    </div>
+
+    <form id="infoForm">
+      <!-- 업로드 버튼 -->
+      <label style="display: inline-block; width: 100px;">보유 자격증</label>
+      <input type="file" id="upload" accept="image/*" style="display: inline-block;">
+      <div id="imagePreview"></div>
+    </form> 
+    <!-- 저장, 편집, 삭제, 추가 버튼 -->
+    <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: 10px;">
+      <button type="button" class="save-button">저장</button>
+      <button type="button" class="edit-button">편집</button>
+      <button type="button" class="delete-button">삭제</button>
+      <button type="button" class="add-button">추가</button>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript 코드 -->
+<script>
+  // JavaScript 코드
+  const infoList = document.getElementById('infoList');
+  const inputs = document.querySelectorAll('#inputSection input[type="text"], input[type="email"], input[type="tel"]');
+  const uploadInput = document.getElementById('upload');
+
+  let selectedListItem = null;
+  let editMode = false;
+
+  function displayInfo(item) {
+    const info = JSON.parse(item.getAttribute('data-info'));
+
+    inputs.forEach(input => {
+      const inputName = input.getAttribute('name');
+      input.value = info[inputName] || '';
+    });
+  }
+
+  function saveInfo() {
+    const info = {};
+
+    inputs.forEach(input => {
+      const inputName = input.getAttribute('name');
+      info[inputName] = input.value;
+    });
+
+    if (!editMode) {
+      const listItem = document.createElement('li');
+      listItem.textContent = info.name;
+      listItem.setAttribute('data-info', JSON.stringify(info));
+
+      listItem.addEventListener('click', function() {
+        if (selectedListItem) {
+          selectedListItem.classList.remove('selected');
+        }
+
+        displayInfo(listItem);
+        selectedListItem = listItem;
+        selectedListItem.classList.add('selected');
+      });
+
+      infoList.appendChild(listItem);
+
+      inputs.forEach(input => {
+        input.value = '';
+      });
+
+      uploadInput.value = '';
+
+      // 저장 후 입력 필드 비활성화
+      toggleInputFields(true); // 입력 필드를 비활성화합니다.
+    } else {
+      selectedListItem.textContent = info.name;
+      selectedListItem.setAttribute('data-info', JSON.stringify(info));
+      editMode = false; // 편집 모드를 비활성화합니다.
+      toggleInputFields(true); // 편집 모드 비활성화 후 입력 필드 비활성화
+
+      // 기존 선택된 리스트 아이템을 없애고, 새로운 정보로 리스트에 추가
+      selectedListItem.remove();
+      infoList.appendChild(selectedListItem);
+    }
+  }
+
+  function deleteInfo() {
+    if (!selectedListItem) return;
+
+    selectedListItem.remove();
+    selectedListItem = null;
+
+    inputs.forEach(input => {
+      input.value = '';
+    });
+
+    uploadInput.value = '';
+  }
+
+  function toggleInputFields(disabled) {
+    inputs.forEach(input => {
+      input.disabled = disabled;
+    });
+  }
+
+  document.querySelector('.save-button').addEventListener('click', saveInfo);
+
+  document.querySelector('.edit-button').addEventListener('click', function() {
+    if (selectedListItem) {
+      toggleInputFields(false);
+      editMode = true; // 편집 모드로 전환합니다.
+    }
+  });
+
+  document.querySelector('.delete-button').addEventListener('click', deleteInfo);
+
+  document.querySelector('.add-button').addEventListener('click', function() {
+    // 입력 필드 활성화
+    toggleInputFields(false);
+    editMode = false;
+
+    // 선택된 리스트 아이템 취소
+    if (selectedListItem) {
+      selectedListItem.classList.remove('selected');
+      selectedListItem = null;
+    }
+
+    // 입력 필드 초기화
+    inputs.forEach(input => {
+      input.value = '';
+    });
+  });
+</script>
+<!-- JavaScript 코드 -->
+</body>
+</html>
